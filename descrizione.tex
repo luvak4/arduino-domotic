@@ -1,38 +1,67 @@
 \documentclass[italian]{article}
-%\usepackage{fontspec}
+\usepackage{fontspec}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{arrows,decorations.pathreplacing}
 \begin{document}
+	
+	\section*{Principio di funzionamento}
+	
+	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
+	
+	\subsection*{Pulsantiera}
+	
+	La pulsantiera manda nell'etere i dati relativi al pulsante trasmesso. Chi è in ascolto riceve il segnale e se è di sua competenza esegue l'azione richiesta relativa al pulsante che è stato premuto.
+	
+	La pulsantiera è anche in ascolto per capire se il comando è stato ricevuto. Se non è stato ricevuto lo ripete un certo numero di volte. In base alla risposta attiva un led verde oppure rosso. I led sono utili perché i pulsanti vengono fisicamente premuti da una persona che in questo modo può rendersi conto che il segnale è stato correttamente inoltrato.
+	
+	Di pulsantiere ce ne possono essere più di una, sia con stesse funzioni che con funzioni diverse.
+	
+	\bigskip
+	
+	\textbf{Nota:} non è compito della pulsantiera indicare lo stato di una uscita su un attuatore: Il led (unico sulla scheda della pulsantiera) indicherà unicamente la ricezione corretta del messaggio. Le altre informazioni saranno date dal display.
+	
+	\subsection*{Display}
+	
+	Il display visualizza quanto viene emesso nell'etere dagli attuatori. {\scriptsize Gli attuatori, che non sono presidiati, si accertano che il segnale venga ricevuto dal display, tentando un certo numero di volte la rispedizione del messaggio.}
+	
+	A sua volta il display potrà indicare indicherà il numero di minuti dall'ultima ricezione di ogni scheda-attuatore.
     
-    \section*{Significato dei dati trasmessi}
+%    \subsubsection*{Ritardi nelle risposte}
+%    
+%    Di display ce ne possono essere più di uno con funzioni diverse. Quando un attuatore chiede conferma che un display abbia ricevuto il suo segnale .............. SAFOM? ......................
     
-    Ogni quadrettino corrisponde ad un byte. Sono disponibili 16 bytes:
+    \subsection*{Attuatore}
+    
+    Viene identificato come attuatore qualsiasi altra scheda che non sia una tastiera o un display. 
+    
+    \section*{Dati trasmessi}
+    
+    Sono disponibili 24 bytes:
     
     \begin{itemize}
         \item 2 byte per descrivere il tipo di oggetto
         \item 2 byte per indicare l'ID dell'oggetto
+        \item 8 byte per il 'protocollo' del messaggio
         \item 8 byte per un valore numerico
-        \item 4 bytes 'liberi' 
+        \item 1 byte per identificare un ripetitore
+        \item 3 bytes 'liberi' 
     \end{itemize}
     
-    \begin{tikzpicture}[base/.style={draw,thick,minimum size=5mm,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
+    \begin{tikzpicture}[base/.style={draw,thick,minimum size=0pt,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
         \node[base](a){0};
         \node[base,right=of a,anchor=west](b){1};
         \node[base,right=of b,anchor=west](c){2};
         \node[base,right=of c,anchor=west](d){3};
-        \node[base,right=of d,anchor=west](e){4};
-        \node[base,right=of e,anchor=west](f){5};
-        \node[base,right=of f,anchor=west](g){6};
-        \node[base,right=of g,anchor=west](h){7};
-        \node[base,right=of h,anchor=west](i){8};                        
-        \node[base,right=of i,anchor=west](j){9};
-        \node[base,right=of j,anchor=west](k){10};
-        \node[base,right=of k,anchor=west](l){11};
-        \node[base,right=of l,anchor=west](m){12}; 
-        \node[base,right=of m,anchor=west](n){13};
-        \node[base,right=of n,anchor=west](o){14};
-        \node[base,right=of o,anchor=west](p){15};                
+        \node[base,right=of d,anchor=west](e){4 -- 11};
+        % aggiunti
+       
+        \node[base,right=of e,anchor=west](f){12 - 19};
+       
+        \node[base,right=of f,anchor=west](m){20}; 
+        \node[base,right=of m,anchor=west](n){21};
+        \node[base,right=of n,anchor=west](o){22};
+        \node[base,right=of o,anchor=west](p){23};                
         %
         \coordinate[yshift=-2mm,xshift=2pt](aa) at (a.south west);
         \coordinate[yshift=-2mm,xshift=-2pt](bb) at (b.south east);
@@ -40,11 +69,14 @@
         \coordinate[yshift=-2mm,xshift=2pt](cc) at (c.south west);
         \coordinate[yshift=-2mm,xshift=-2pt](dd) at (d.south east);
         %
-        \coordinate[yshift=-2mm,xshift=2pt](ee) at (e.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](ll) at (l.south east);
+        \coordinate[yshift=-2mm,xshift=2pt](qq) at (e.south west);
+        \coordinate[yshift=-2mm,xshift=-2pt](rr) at (e.south east);
+        %
+        \coordinate[yshift=-2mm,xshift=2pt](ee) at (f.south west);
+        \coordinate[yshift=-2mm,xshift=-2pt](ll) at (f.south east);
         %
         \coordinate[yshift=-2mm,xshift=2pt](mm) at (m.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](pp) at (p.south east);        
+        \coordinate[yshift=-2mm,xshift=-2pt](pp) at (p.south west);        
         %
         \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
         (aa) --  node(x) {} (bb);
@@ -54,13 +86,27 @@
         (ee) --  node(z) {} (ll);
         \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
         (mm) --  node(w) {} (pp);
+		 \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+		 (qq) --  node(s) {} (rr);
         %
-        \node[altro,below right=of p,yshift=-10pt](sotto){non usati};
+        
+        \node[altro,below right=of p,yshift=-10pt](sotto){ripetitore};
+        \draw (p) |- (sotto);
+        \node[altro,below=of sotto](sotto){\texttt{\begin{tabular}{ll}
+        		C & usa il ripetitore C\\
+        		\end{tabular}}};
+        
+        \node[altro,below =of sotto](sotto){non usati};
         \draw (w) |- (sotto);
+                
+        
         \node[altro,below =of sotto](sotto){valore};
         \draw (z) |- (sotto);
+         \node[altro,below =of sotto](sotto){ID messaggio};
+         \draw (s) |- (sotto);
         \node[altro,below =of sotto](sotto){ID oggetto};
         \draw (y) |- (sotto);
+       
         \node[altro,below =of sotto](sotto){oggetto};
         \draw (x) |- (sotto);  
         %
@@ -73,6 +119,10 @@
     \end{tikzpicture}
     
     \textbf{Nota:} Un interruttore viene trasmesso come due pulsanti: uno per accendere l'altro per spegnere
+    
+    \subsection*{ID messaggio}
+    
+    I primi due byte identificano la scheda. Gli altri 6 bytes vengono incrementati ad ogni invio di messaggio. L'ID messaggio viene postato dal primo che inizia una conversazione (esempio: se viene premuto il pulsante -- inizio di conversazione -- l'ID inserito sarà quello della scheda che contiene il suddetto pulsante)
     
     \section*{Esempi}
     
