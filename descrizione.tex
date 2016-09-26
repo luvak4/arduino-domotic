@@ -1,14 +1,95 @@
 \documentclass[italian]{article}
-\usepackage{fontspec}
+%\usepackage{fontspec}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{arrows,decorations.pathreplacing}
 \begin{document}
 	
-	\section*{Principio di funzionamento}
+%	\section*{Principio di funzionamento}
+%	
+%	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
 	
-	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
-	
+    \subsection*{Dati}
+    \begin{tikzpicture}[base/.style={draw,thick,minimum size=1cm,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
+    \node[base](a){0};
+    \node[base,right=of a,anchor=west](b){1};
+    \node[base,right=of b,anchor=west](c){2};
+    \node[base,right=of c,anchor=west](d){3};
+    %
+    \coordinate[yshift=-2mm,xshift=2pt](aa) at (d.south east);
+    %
+    \node[base,right=of d,anchor=west](e){4};
+    \node[base,right=of e,anchor=west](f){5};
+    \node[base,right=of f,anchor=west](g){6};
+    \node[base,right=of g,anchor=west](h){7};                
+    %
+    \coordinate[yshift=-2mm,xshift=2pt](bb) at (h.south west);    
+    %
+    \node[base,right=of h,anchor=west](i){8 -- 26}; 
+    %
+    \node[altro,below right =of i,anchor=north west](x){(non usato)};
+    \draw (i) |- (x);
+    %
+    \node[altro,below =of x](x){\textbf{valore}};
+    \draw (h) |- (x);
+    %
+    \draw[decorate,decoration={brace,amplitude=3pt,mirror}] (aa) --  node(ww) {} (bb);        
+    \node[altro,below =of x](x){(non usati)};
+    \draw (ww) |- (x);
+    %
+    \node[altro,below =of x](x){\textbf{mittente}};
+    \draw (d) |- (x);      
+    %
+    \node[altro,below =of x](x){(non usato)};
+    \draw (c) |- (x);           
+    %
+    \node[altro,below =of x](x){\textbf{destinatario}};
+    \draw (b) |- (x);      
+    %
+    \node[altro,below =of x](x){(non usato)};
+    \draw (a) |- (x);               
+    %
+
+    \end{tikzpicture}
+    
+    \section*{Destinatario}
+    
+    Il byte è normalmente a zero (il messaggio viene inoltrato a tutti) ma se occorre fare in modo che il segnale venga ripetuto tra stazioni (esempio per comunicare tra appartamento e garage / cantina) si riempirà opportunamente questo campo.
+    
+    \section*{Mittente}
+    
+    Questo byte identifica nell'ambiente radio quale pulsante o risposta sta viaggiando nell'etere. Mantenendo aggiornata la tabella sottostante si semplifica la struttura software a discapito della flessibilità del sistema che sarà quindi altamente personalizzato.
+    
+    \subsection{Tabella mittenti/destinatari}
+    
+    
+
+        \begin{tabular}{ll}
+            \texttt{00000000 & tutti (broadcast)\\
+            \texttt{00000001 & Pulsante per spegnimento PfSense\\
+            \texttt{00000010 & Pulsante per riavvio PfSense\\
+            \texttt{00000011 & Pulsante per ping tramite PfSense\\
+            \texttt{00000100 & Pulsante sync scheda Arduino con PfSense\\
+            \texttt{00000101 & Comunicazione che pfSense è ON\\
+            \texttt{00000110 & Comunicazione che pfSense è in spegnimento\\            
+            \texttt{00000111} & Comunicazione che pfSense è OFF\\            
+            \texttt{00001000} & Comunicazione che pfSense è in riavvio\\            
+            \texttt{00001001} & Comunicazione che pfSense non è connesso a internet\\            
+            \texttt{00001010} & Comunicazione che pfSense è connesso a internet\\                   
+            \texttt{00001011} & Pulsante accensione carico 01\\
+            \texttt{00001011} & Pulsante spegnimento carico 01\\
+        \end{tabular}
+
+    
+    \section*{Valore}
+    
+    Questo byte può contenere un valore compreso tra 0 e 255
+    
+    \section*{Bytes non usati}
+    
+    Per applicazioni future. Ad esempio si possono sfruttare i bytes 4, 5, 6 e 7 per inviare un valore a 32 bit. E usare indirizzamenti a 16 bit. Al momento non implementato
+    
+
 	\subsection*{Pulsantiera}
 	
 	La pulsantiera manda nell'etere i dati relativi al pulsante trasmesso. Chi è in ascolto riceve il segnale e se è di sua competenza esegue l'azione richiesta relativa al pulsante che è stato premuto.
@@ -35,88 +116,88 @@
     
     Viene identificato come attuatore qualsiasi altra scheda che non sia una tastiera o un display. 
     
-    \section*{Dati trasmessi}
-    
-    Sono disponibili 24 bytes:
-    
-    \begin{itemize}
-        \item 2 byte per descrivere il tipo di oggetto
-        \item 2 byte per indicare l'ID dell'oggetto
-        \item 8 byte per il 'protocollo' del messaggio
-        \item 8 byte per un valore numerico
-        \item 1 byte per identificare un ripetitore
-        \item 3 bytes 'liberi' 
-    \end{itemize}
-    
-    \begin{tikzpicture}[base/.style={draw,thick,minimum size=0pt,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
-        \node[base](a){0};
-        \node[base,right=of a,anchor=west](b){1};
-        \node[base,right=of b,anchor=west](c){2};
-        \node[base,right=of c,anchor=west](d){3};
-        \node[base,right=of d,anchor=west](e){4 -- 11};
-        % aggiunti
-       
-        \node[base,right=of e,anchor=west](f){12 - 19};
-       
-        \node[base,right=of f,anchor=west](m){20}; 
-        \node[base,right=of m,anchor=west](n){21};
-        \node[base,right=of n,anchor=west](o){22};
-        \node[base,right=of o,anchor=west](p){23};                
-        %
-        \coordinate[yshift=-2mm,xshift=2pt](aa) at (a.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](bb) at (b.south east);
-        %
-        \coordinate[yshift=-2mm,xshift=2pt](cc) at (c.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](dd) at (d.south east);
-        %
-        \coordinate[yshift=-2mm,xshift=2pt](qq) at (e.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](rr) at (e.south east);
-        %
-        \coordinate[yshift=-2mm,xshift=2pt](ee) at (f.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](ll) at (f.south east);
-        %
-        \coordinate[yshift=-2mm,xshift=2pt](mm) at (m.south west);
-        \coordinate[yshift=-2mm,xshift=-2pt](pp) at (p.south west);        
-        %
-        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
-        (aa) --  node(x) {} (bb);
-        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
-        (cc) --  node(y) {} (dd);
-        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
-        (ee) --  node(z) {} (ll);
-        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
-        (mm) --  node(w) {} (pp);
-		 \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
-		 (qq) --  node(s) {} (rr);
-        %
-        
-        \node[altro,below right=of p,yshift=-10pt](sotto){ripetitore};
-        \draw (p) |- (sotto);
-        \node[altro,below=of sotto](sotto){\texttt{\begin{tabular}{ll}
-        		C & usa il ripetitore C\\
-        		\end{tabular}}};
-        
-        \node[altro,below =of sotto](sotto){non usati};
-        \draw (w) |- (sotto);
-                
-        
-        \node[altro,below =of sotto](sotto){valore};
-        \draw (z) |- (sotto);
-         \node[altro,below =of sotto](sotto){ID messaggio};
-         \draw (s) |- (sotto);
-        \node[altro,below =of sotto](sotto){ID oggetto};
-        \draw (y) |- (sotto);
-       
-        \node[altro,below =of sotto](sotto){oggetto};
-        \draw (x) |- (sotto);  
-        %
-        \node[altro,below=of sotto]{\texttt{\begin{tabular}{ll}
-            PU & pulsante (azione umana)\\
-            AU & pulsante (azione automatica)\\            
-            VA & valore\\
-            OK & conferma\\
-            \end{tabular}}};
-    \end{tikzpicture}
+%    \section*{Dati trasmessi}
+%    
+%    Sono disponibili 24 bytes:
+%    
+%    \begin{itemize}
+%        \item 2 byte per descrivere il tipo di oggetto
+%        \item 2 byte per indicare l'ID dell'oggetto
+%        \item 8 byte per il 'protocollo' del messaggio
+%        \item 8 byte per un valore numerico
+%        \item 1 byte per identificare un ripetitore
+%        \item 3 bytes 'liberi' 
+%    \end{itemize}
+%    
+%    \begin{tikzpicture}[base/.style={draw,thick,minimum size=0pt,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
+%        \node[base](a){0};
+%        \node[base,right=of a,anchor=west](b){1};
+%        \node[base,right=of b,anchor=west](c){2};
+%        \node[base,right=of c,anchor=west](d){3};
+%        \node[base,right=of d,anchor=west](e){4 -- 11};
+%        % aggiunti
+%       
+%        \node[base,right=of e,anchor=west](f){12 - 19};
+%       
+%        \node[base,right=of f,anchor=west](m){20}; 
+%        \node[base,right=of m,anchor=west](n){21};
+%        \node[base,right=of n,anchor=west](o){22};
+%        \node[base,right=of o,anchor=west](p){23};                
+%        %
+%        \coordinate[yshift=-2mm,xshift=2pt](aa) at (a.south west);
+%        \coordinate[yshift=-2mm,xshift=-2pt](bb) at (b.south east);
+%        %
+%        \coordinate[yshift=-2mm,xshift=2pt](cc) at (c.south west);
+%        \coordinate[yshift=-2mm,xshift=-2pt](dd) at (d.south east);
+%        %
+%        \coordinate[yshift=-2mm,xshift=2pt](qq) at (e.south west);
+%        \coordinate[yshift=-2mm,xshift=-2pt](rr) at (e.south east);
+%        %
+%        \coordinate[yshift=-2mm,xshift=2pt](ee) at (f.south west);
+%        \coordinate[yshift=-2mm,xshift=-2pt](ll) at (f.south east);
+%        %
+%        \coordinate[yshift=-2mm,xshift=2pt](mm) at (m.south west);
+%        \coordinate[yshift=-2mm,xshift=-2pt](pp) at (p.south west);        
+%        %
+%        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+%        (aa) --  node(x) {} (bb);
+%        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+%        (cc) --  node(y) {} (dd);
+%        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+%        (ee) --  node(z) {} (ll);
+%        \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+%        (mm) --  node(w) {} (pp);
+%		 \draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+%		 (qq) --  node(s) {} (rr);
+%        %
+%        
+%        \node[altro,below right=of p,yshift=-10pt](sotto){ripetitore};
+%        \draw (p) |- (sotto);
+%        \node[altro,below=of sotto](sotto){\texttt{\begin{tabular}{ll}
+%        		C & usa il ripetitore C\\
+%        		\end{tabular}}};
+%        
+%        \node[altro,below =of sotto](sotto){non usati};
+%        \draw (w) |- (sotto);
+%                
+%        
+%        \node[altro,below =of sotto](sotto){valore};
+%        \draw (z) |- (sotto);
+%         \node[altro,below =of sotto](sotto){ID messaggio};
+%         \draw (s) |- (sotto);
+%        \node[altro,below =of sotto](sotto){ID oggetto};
+%        \draw (y) |- (sotto);
+%       
+%        \node[altro,below =of sotto](sotto){oggetto};
+%        \draw (x) |- (sotto);  
+%        %
+%        \node[altro,below=of sotto]{\texttt{\begin{tabular}{ll}
+%            PU & pulsante (azione umana)\\
+%            AU & pulsante (azione automatica)\\            
+%            VA & valore\\
+%            OK & conferma\\
+%            \end{tabular}}};
+%    \end{tikzpicture}
     
     \textbf{Nota:} Un interruttore viene trasmesso come due pulsanti: uno per accendere l'altro per spegnere
     
