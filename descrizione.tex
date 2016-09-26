@@ -65,21 +65,62 @@
     
 
         \begin{tabular}{ll}
-            \texttt{00000000 & tutti (broadcast)\\
-            \texttt{00000001 & Pulsante per spegnimento PfSense\\
-            \texttt{00000010 & Pulsante per riavvio PfSense\\
-            \texttt{00000011 & Pulsante per ping tramite PfSense\\
-            \texttt{00000100 & Pulsante sync scheda Arduino con PfSense\\
-            \texttt{00000101 & Comunicazione che pfSense è ON\\
-            \texttt{00000110 & Comunicazione che pfSense è in spegnimento\\            
-            \texttt{00000111} & Comunicazione che pfSense è OFF\\            
-            \texttt{00001000} & Comunicazione che pfSense è in riavvio\\            
-            \texttt{00001001} & Comunicazione che pfSense non è connesso a internet\\            
-            \texttt{00001010} & Comunicazione che pfSense è connesso a internet\\                   
-            \texttt{00001011} & Pulsante accensione carico 01\\
-            \texttt{00001011} & Pulsante spegnimento carico 01\\
+            \texttt{0} & tutti (broadcast): usato solo per destinatari\\
+            %
+            \multicolumn{2}{l}{\textbf{pulsantiera - inerente a pfSense}}\\
+            % 
+            \texttt{1} & Pulsante per spegnimento\\
+            \texttt{2} & Pulsante per riavvio\\
+            \texttt{3} & Pulsante per ping \\
+            \texttt{4} & Pulsante sync \\
+            \texttt{5} & Pulsante leggi stato (on/off/in accensione/in spegnimento)\\
+            %
+            \multicolumn{2}{l}{\textbf{pulsantiera - inerente a primo attuatore}}\\
+            % 
+            \texttt{6} & Pulsante accensione carico 01\\
+            \texttt{7} & Pulsante spegnimento carico 01\\
+			%
+			\multicolumn{2}{l}{\textbf{pulsantiera - inerente a NAS}}\\
+			% 
+			\texttt{8} & Pulsante per spegnimento\\
+			\texttt{9} & Pulsante per accensione\\
+			\texttt{10} & Pulsante leggi stato (on/off/in accensione/in spegnimento)\\
+			%
+			\multicolumn{2}{l}{\textbf{pulsantiera - inerente a UPS}}\\
+			% 
+			\texttt{8} & Pulsante per spegnimento\\
+			\texttt{9} & Pulsante per accensione\\
+			\texttt{10} & Pulsante leggi stato (on/off)\\			
+            %
+            \multicolumn{2}{l}{\textbf{scheda server pfSense}}\\
+            % 
+            \texttt{11} & lettura stato pfSense (on/off/in accensione/in spegnimento)\\        
+            \texttt{12} & lettura stato ping (connesso/non connesso a internet)\\            
+            \texttt{13} & ricevuto il comando\\
+            %
+            \multicolumn{2}{l}{\textbf{primo attuatore}}\\
+            % 
+		    \texttt{14} & lettura stato logico carico 01\\ 
+		    \texttt{15} & lettura valore analogico canale A\\ 		      		             
+			\texttt{16} & ricevuto il comando\\
+			%
+			\multicolumn{2}{l}{\textbf{scheda NAS}}\\
+			\texttt{17} & lettura stato NAS (on/off/in accensione/in spegnimento)\\
+			\texttt{18} & ricevuto il comando\\
+			%
+			\multicolumn{2}{l}{\textbf{scheda UPS}}\\
+			\texttt{19} & lettura stato UPS (on/off)\\
+			\texttt{20} & ricevuto il comando\\
+			%
+			\multicolumn{2}{l}{\textbf{ripetitori} (usati come destinatario o destinatario/mittente tra ripetitori)}\\
+			%         
+			\texttt{128} & ripetitore A\\    
+			\texttt{129} & ripetitore B\\ 
         \end{tabular}
 
+    \subsection*{Info}
+    
+    La scheda emette autonomamente questo valore: \'E compito della scheda display che sta in ascolto di avere "orecchie ben aperte". La risposta non dipende direttamente dallo stato di una uscita ma sono risposte in cascata.
     
     \section*{Valore}
     
