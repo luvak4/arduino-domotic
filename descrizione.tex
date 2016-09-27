@@ -79,38 +79,40 @@
             % 
             \texttt{6} & Pulsante accensione carico 01\\
             \texttt{7} & Pulsante spegnimento carico 01\\
+            \texttt{8} & Pulsante lettura valore analogico canale A\\
 			%
 			\multicolumn{2}{l}{\textbf{pulsantiera - inerente a NAS}}\\
 			% 
-			\texttt{8} & Pulsante per spegnimento\\
-			\texttt{9} & Pulsante per accensione\\
-			\texttt{10} & Pulsante leggi stato (on/off/in accensione/in spegnimento)\\
+			\texttt{9} & Pulsante per spegnimento\\
+			\texttt{10} & Pulsante per accensione\\
+			\texttt{11} & Pulsante leggi stato (on/off/in accensione/in spegnimento)\\
 			%
 			\multicolumn{2}{l}{\textbf{pulsantiera - inerente a UPS}}\\
 			% 
-			\texttt{8} & Pulsante per spegnimento\\
-			\texttt{9} & Pulsante per accensione\\
-			\texttt{10} & Pulsante leggi stato (on/off)\\			
+			\texttt{12} & Pulsante per spegnimento\\
+			\texttt{13} & Pulsante per accensione\\
+			\texttt{14} & Pulsante leggi stato (on/off)\\			
             %
             \multicolumn{2}{l}{\textbf{scheda server pfSense}}\\
             % 
-            \texttt{11} & lettura stato pfSense (on/off/in accensione/in spegnimento)\\        
-            \texttt{12} & lettura stato ping (connesso/non connesso a internet)\\            
-            \texttt{13} & ricevuto il comando\\
+            \texttt{30} & lettura stato pfSense (on/off/in accensione/in spegnimento)\\        
+            \texttt{31} & lettura stato ping (connesso/non connesso a internet)\\            
+            \texttt{32} & ricevuto il comando\\
             %
             \multicolumn{2}{l}{\textbf{primo attuatore}}\\
             % 
-		    \texttt{14} & lettura stato logico carico 01\\ 
-		    \texttt{15} & lettura valore analogico canale A\\ 		      		             
-			\texttt{16} & ricevuto il comando\\
+		    \texttt{40} & lettura stato logico carico 01\\ 
+		    \texttt{41} & lettura valore analogico canale A\\
+		    \texttt{42} & periodica lettura analogico canale A\\
+			\texttt{43} & ricevuto il comando\\
 			%
 			\multicolumn{2}{l}{\textbf{scheda NAS}}\\
-			\texttt{17} & lettura stato NAS (on/off/in accensione/in spegnimento)\\
-			\texttt{18} & ricevuto il comando\\
+			\texttt{50} & lettura stato NAS (on/off/in accensione/in spegnimento)\\
+			\texttt{51} & ricevuto il comando\\
 			%
 			\multicolumn{2}{l}{\textbf{scheda UPS}}\\
-			\texttt{19} & lettura stato UPS (on/off)\\
-			\texttt{20} & ricevuto il comando\\
+			\texttt{55} & lettura stato UPS (on/off)\\
+			\texttt{56} & ricevuto il comando\\
 			%
 			\multicolumn{2}{l}{\textbf{ripetitori} (usati come destinatario o destinatario/mittente tra ripetitori)}\\
 			%         
