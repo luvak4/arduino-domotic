@@ -5,6 +5,45 @@
 \usetikzlibrary{arrows,decorations.pathreplacing}
 \begin{document}
 	
+    \section*{Stato attuale dati trasmessi}
+    
+    \subsection*{keyboard}
+    \begin{tabular}{ll}
+        \texttt{pulsPFSE0001} & pfSense Halt \\
+        \texttt{pulsPFSE0002} & pfSense Reboot \\
+        \texttt{pulsPFSE0003} & pfSense Sync \\
+        \texttt{pulsPFSE0004} & pfSense Ping \\
+        \texttt{pulsACTU0001} & attuatore Rele ON\\
+        \texttt{pulsACTU0002} & attuatore Rele OFF\\
+        \texttt{pulsACTU0003} & attuatore leggi stato rele\\
+        \texttt{pulsACTU0004} & attuatore leggi analogico A0\\            
+    \end{tabular}
+    
+    \subsection*{servente}
+    
+    \begin{tabular}{ll}
+        \texttt{statPFSE0000} & pfSense tentativo di sync Arduino-pfSense\\
+        \texttt{statPFSE0001} & pfSense in avvio\\
+        \texttt{statPFSE0002} & pfSense è ON\\
+        \texttt{statPFSE0003} & pfSense in spegnimento\\
+        \texttt{statPFSE0004} & pfSense è OFF \\
+        \texttt{statPFSE0005} & pfSense ping OK\\
+        \texttt{statPFSE0006} & pfSense pink ko\\
+        \texttt{statPFSE0007} & pfSense ricevuto comando\\        
+
+    \end{tabular}
+    
+    \subsection*{attuatore}    
+    
+    \begin{tabular}{ll}
+        \texttt{digiACTU000X} & attuatore stato rele (X = [0/1])\\
+        \texttt{anagACTU0XXX} & attuatore valore analogico A0 (X = [0/999])\\
+        \texttt{statACTU0007} & attuatore ricevuto comando\\        
+        
+    \end{tabular}
+
+\newpage
+    
 %	\section*{Principio di funzionamento}
 %	
 %	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
