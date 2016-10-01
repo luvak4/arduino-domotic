@@ -19,11 +19,12 @@
         \texttt{pulsPFSE0002} & imposta riavvio Reboot & \texttt{\RGPx{AA}{02}}\\
         \texttt{pulsPFSE0003} & imposta “Sync” & 		 \texttt{\RGPx{AA}{03}}\\
         \texttt{pulsPFSE0004} & imposta Ping & 			 \texttt{\RGPx{AA}{04}}\\
+                              & leggi stato & 			 \texttt{\RGPx{AA}{05}}\\        
         \multicolumn{3}{c}{\textbf{keyboard per attuatore}}\\
-        \texttt{pulsACTU0001} & imposta Rele ON & 		 \texttt{\RGPx{AB}{01}}\\
-        \texttt{pulsACTU0002} & imposta Rele OFF & 	 	 \texttt{\RGPx{AB}{02}}\\
-        \texttt{pulsACTU0003} & leggi stato rele & 	 	 \texttt{\RGPx{AB}{03}}\\
-        \texttt{pulsACTU0004} & leggi analogico A0 & 	 \texttt{\RGP{AB}{04}{00}{00}{00}{00}}\\            
+        \texttt{pulsACTU0001} & imposta Rele ON & 		 \texttt{\RGPx{AA}{06}}\\
+        \texttt{pulsACTU0002} & imposta Rele OFF & 	 	 \texttt{\RGPx{AA}{07}}\\
+        \texttt{pulsACTU0003} & leggi stato rele & 	 	 \texttt{\RGPx{AA}{08}}\\
+        \texttt{pulsACTU0004} & leggi analogico A0 & 	 \texttt{\RGPx{AA}{09}}\\            
         \multicolumn{3}{c}{\textbf{servente (per pfSense)}}\\
         \texttt{statPFSE0000} & tentativo di sync Arduino-pfSense & \texttt{\RGPx{AC}{01}}\\
         \texttt{statPFSE0001} & in avvio & 			 	 \texttt{\RGPx{AC}{02}}\\
@@ -32,12 +33,12 @@
         \texttt{statPFSE0004} & è OFF & 				 \texttt{\RGPx{AC}{05}}\\
         \texttt{statPFSE0005} & ping OK & 				 \texttt{\RGPx{AC}{06}}\\
         \texttt{statPFSE0006} & ping ko & 				 \texttt{\RGPx{AC}{07}}\\
-        \texttt{statPFSE0007} & ricevuto comando & 	 \texttt{\RGPx{AC}{08}}\\
+        \texttt{statPFSE0007} & ricevuto comando & 	 	 \texttt{\RGPx{AC}{FE}}\\
         \multicolumn{3}{c}{\textbf{attuatore}}\\
         \texttt{digiACTU000X} & stato rele ON & 		 \texttt{\RGPx{AD}{01}}\\
         \texttt{digiACTU000X} & stato rele OFF & 		 \texttt{\RGPx{AD}{02}}\\        
         \texttt{anagACTU0XXX} & valore analogico A0  & 	 \texttt{\RGP{AD}{03}{XX}{XX}{XX}{XX}}\\
-        \texttt{statACTU0007} & ricevuto comando & 		 \texttt{\RGPx{AD}{04}}\\                
+        \texttt{statACTU0007} & ricevuto comando & 		 \texttt{\RGPx{AD}{FE}}\\                
     \end{tabular}
 
     \newpage
