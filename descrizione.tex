@@ -1,52 +1,50 @@
-\documentclass[italian]{article}
+\documentclass{article}
 %\usepackage{fontspec}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{arrows,decorations.pathreplacing}
+\newcommand{\RGP}[6]{\fbox{#1}\fbox{#2}\fbox{#3}\fbox{#4}\fbox{#5}\fbox{#6}}
+\newcommand{\RGPx}[2]{\fbox{#1}\fbox{#2}\fbox{00}\fbox{00}\fbox{00}\fbox{00}}
+
+
 \begin{document}
 	
     \section*{Stato attuale dati trasmessi}
     
-    \subsection*{keyboard}
-    \begin{tabular}{ll}
-        \texttt{pulsPFSE0001} & pfSense Halt \\
-        \texttt{pulsPFSE0002} & pfSense Reboot \\
-        \texttt{pulsPFSE0003} & pfSense Sync \\
-        \texttt{pulsPFSE0004} & pfSense Ping \\
-        \texttt{pulsACTU0001} & attuatore Rele ON\\
-        \texttt{pulsACTU0002} & attuatore Rele OFF\\
-        \texttt{pulsACTU0003} & attuatore leggi stato rele\\
-        \texttt{pulsACTU0004} & attuatore leggi analogico A0\\            
-    \end{tabular}
-    
-    \subsection*{servente}
-    
-    \begin{tabular}{ll}
-        \texttt{statPFSE0000} & pfSense tentativo di sync Arduino-pfSense\\
-        \texttt{statPFSE0001} & pfSense in avvio\\
-        \texttt{statPFSE0002} & pfSense è ON\\
-        \texttt{statPFSE0003} & pfSense in spegnimento\\
-        \texttt{statPFSE0004} & pfSense è OFF \\
-        \texttt{statPFSE0005} & pfSense ping OK\\
-        \texttt{statPFSE0006} & pfSense pink ko\\
-        \texttt{statPFSE0007} & pfSense ricevuto comando\\        
-
-    \end{tabular}
-    
-    \subsection*{attuatore}    
-    
-    \begin{tabular}{ll}
-        \texttt{digiACTU000X} & attuatore stato rele (X = [0/1])\\
-        \texttt{anagACTU0XXX} & attuatore valore analogico A0 (X = [0/999])\\
-        \texttt{statACTU0007} & attuatore ricevuto comando\\        
-        
+    \begin{tabular}{lll}
+                \textbf{vecchio codice} & \textbf{descrizione}  & \textbf{nuovo codice}\\
+                                 &   & \texttt{\RGP{D5}{D4}{D3}{D2}{D1}{D0}}  \\
+        \multicolumn{3}{c}{\textbf{keyboard per servente}}\\
+        \texttt{pulsPFSE0001} & imposta spegnimento & 	 \texttt{\RGPx{AA}{01}}\\
+        \texttt{pulsPFSE0002} & imposta riavvio Reboot & \texttt{\RGPx{AA}{02}}\\
+        \texttt{pulsPFSE0003} & imposta “Sync” & 		 \texttt{\RGPx{AA}{03}}\\
+        \texttt{pulsPFSE0004} & imposta Ping & 			 \texttt{\RGPx{AA}{04}}\\
+        \multicolumn{3}{c}{\textbf{keyboard per attuatore}}\\
+        \texttt{pulsACTU0001} & imposta Rele ON & 		 \texttt{\RGPx{AB}{01}}\\
+        \texttt{pulsACTU0002} & imposta Rele OFF & 	 	 \texttt{\RGPx{AB}{02}}\\
+        \texttt{pulsACTU0003} & leggi stato rele & 	 	 \texttt{\RGPx{AB}{03}}\\
+        \texttt{pulsACTU0004} & leggi analogico A0 & 	 \texttt{\RGP{AB}{04}{00}{00}{00}{00}}\\            
+        \multicolumn{3}{c}{\textbf{servente (per pfSense)}}\\
+        \texttt{statPFSE0000} & tentativo di sync Arduino-pfSense & \texttt{\RGPx{AC}{01}}\\
+        \texttt{statPFSE0001} & in avvio & 			 	 \texttt{\RGPx{AC}{02}}\\
+        \texttt{statPFSE0002} & è ON & 				 	 \texttt{\RGPx{AC}{03}}\\
+        \texttt{statPFSE0003} & in spegnimento & 		 \texttt{\RGPx{AC}{04}}\\
+        \texttt{statPFSE0004} & è OFF & 				 \texttt{\RGPx{AC}{05}}\\
+        \texttt{statPFSE0005} & ping OK & 				 \texttt{\RGPx{AC}{06}}\\
+        \texttt{statPFSE0006} & ping ko & 				 \texttt{\RGPx{AC}{07}}\\
+        \texttt{statPFSE0007} & ricevuto comando & 	 \texttt{\RGPx{AC}{08}}\\
+        \multicolumn{3}{c}{\textbf{attuatore}}\\
+        \texttt{digiACTU000X} & stato rele ON & 		 \texttt{\RGPx{AD}{01}}\\
+        \texttt{digiACTU000X} & stato rele OFF & 		 \texttt{\RGPx{AD}{02}}\\        
+        \texttt{anagACTU0XXX} & valore analogico A0  & 	 \texttt{\RGP{AD}{03}{XX}{XX}{XX}{XX}}\\
+        \texttt{statACTU0007} & ricevuto comando & 		 \texttt{\RGPx{AD}{04}}\\                
     \end{tabular}
 
-\newpage
+    \newpage
     
-%	\section*{Principio di funzionamento}
-%	
-%	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
+    %	\section*{Principio di funzionamento}
+    %	
+    %	Il progetto viene sostanzialmente diviso in "funzioni": pulsantiera, display, attuatore.
 	
     \subsection*{Dati}
     \begin{tikzpicture}[base/.style={draw,thick,minimum size=1cm,node distance=0pt,outer sep=0pt},altro/.style={text width=4cm,align=left,minimum size=0pt,node distance=3pt,outer sep=0pt}]
