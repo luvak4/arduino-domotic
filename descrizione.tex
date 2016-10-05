@@ -3,44 +3,72 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{arrows,decorations.pathreplacing}
+\newcommand{\CB}[1]{\colorbox{gray}{\parbox{4mm}{\color{white}#1}}}
+    
 \newcommand{\RGP}[6]{\fbox{#1}\fbox{#2}\fbox{#3}\fbox{#4}\fbox{#5}\fbox{#6}}
 \newcommand{\RGPx}[2]{\fbox{#1}\fbox{#2}\fbox{00}\fbox{00}\fbox{00}\fbox{00}}
+\newcommand{\RGPcol}[6]{\CB{#1}\CB{#2}\CB{#3}\CB{#4}\CB{#5}\CB{#6}}
+
 
 
 \begin{document}
 	
     \section*{Stato attuale dati trasmessi}
     
+    
+    \texttt{        
     \begin{tabular}{lll}
-                \textbf{vecchio codice} & \textbf{descrizione}  & \textbf{nuovo codice}\\
-                                 &   & \texttt{\RGP{D5}{D4}{D3}{D2}{D1}{D0}}  \\
-        \multicolumn{3}{c}{\textbf{keyboard per servente}}\\
-        \texttt{pulsPFSE0001} & imposta spegnimento & 	 \texttt{\RGPx{AA}{01}}\\
-        \texttt{pulsPFSE0002} & imposta riavvio Reboot & \texttt{\RGPx{AA}{02}}\\
-        \texttt{pulsPFSE0003} & imposta “Sync” & 		 \texttt{\RGPx{AA}{03}}\\
-        \texttt{pulsPFSE0004} & imposta Ping & 			 \texttt{\RGPx{AA}{04}}\\
-                              & leggi stato & 			 \texttt{\RGPx{AA}{05}}\\        
-        \multicolumn{3}{c}{\textbf{keyboard per attuatore}}\\
-        \texttt{pulsACTU0001} & imposta Rele ON & 		 \texttt{\RGPx{AA}{06}}\\
-        \texttt{pulsACTU0002} & imposta Rele OFF & 	 	 \texttt{\RGPx{AA}{07}}\\
-        \texttt{pulsACTU0003} & leggi stato rele & 	 	 \texttt{\RGPx{AA}{08}}\\
-        \texttt{pulsACTU0004} & leggi analogico A0 & 	 \texttt{\RGPx{AA}{09}}\\            
-        \multicolumn{3}{c}{\textbf{servente (per pfSense)}}\\
-        \texttt{statPFSE0000} & tentativo di sync Arduino-pfSense & \texttt{\RGPx{AC}{01}}\\
-        \texttt{statPFSE0001} & in avvio & 			 	 \texttt{\RGPx{AC}{02}}\\
-        \texttt{statPFSE0002} & è ON & 				 	 \texttt{\RGPx{AC}{03}}\\
-        \texttt{statPFSE0003} & in spegnimento & 		 \texttt{\RGPx{AC}{04}}\\
-        \texttt{statPFSE0004} & è OFF & 				 \texttt{\RGPx{AC}{05}}\\
-        \texttt{statPFSE0005} & ping OK & 				 \texttt{\RGPx{AC}{06}}\\
-        \texttt{statPFSE0006} & ping ko & 				 \texttt{\RGPx{AC}{07}}\\
-                              & invia \texttt{$ \backslash $n}    &  \texttt{\RGPx{AC}{09}}\\
-                              & invia \texttt{exit $ \backslash $n} &\texttt{\RGPx{AC}{0A}}\\
-        \texttt{statPFSE0007} & ricevuto comando & 	 	 \texttt{\RGPx{AC}{FE}}\\
-        \multicolumn{3}{c}{\textbf{attuatore}}\\
-        \texttt{digiACTU000X} & stato rele ON & 		 \texttt{\RGPx{AD}{01}}\\
-        \texttt{digiACTU000X} & stato rele OFF & 		 \texttt{\RGPx{AD}{02}}\\        
-        \texttt{anagACTU0XXX} & valore analogico A0  & 	 \texttt{\RGP{AD}{03}{XX}{XX}{XX}{XX}}\\
-        \texttt{statACTU0007} & ricevuto comando & 		 \texttt{\RGPx{AD}{FE}}\\                
+        AA01 & AA02 & AA03\\
+        AA04 & AA05 & AA06\\
+        AA07 & AA08 & AA09\\
+        AA0A & AA0B & AA0C\\
+        AA0D & AA0E & AA0F\\
+        AA10 & AA11 & AA12\\
+        AA13 & AA14 & AA15\\    
+    \end{tabular}
+    }
+    
+    \begin{tabular}{lll}
+                \textbf{scheda} & \textbf{descrizione}  & \textbf{nuovo codice}\\
+                                 &   & \texttt{\RGPcol{D5}{D4}{D3}{D2}{D1}{D0}}  \\
+
+        keyboard per servente & chiede lo spegnimento & 	 \texttt{\RGPx{AA}{01}}\\
+        keyboard per servente & chiede il riavvio & \texttt{\RGPx{AA}{02}}\\
+        keyboard per servente & chiede “Sync” & 		 \texttt{\RGPx{AA}{03}}\\
+        keyboard per servente & chiede Ping & 			 \texttt{\RGPx{AA}{04}}\\
+                              & chiede stato & 			 \texttt{\RGPx{AA}{05}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{06}}\\
+        keyboard per diganalog & imposta Rele ON & 		 \texttt{\RGPx{AA}{07}}\\
+        keyboard per diganalog & imposta Rele OFF &  	 \texttt{\RGPx{AA}{08}}\\
+        keyboard per diganalog & leggi stato rele &  	 \texttt{\RGPx{AA}{09}}\\
+        keyboard per diganalog & leggi analogico A0 & 	 \texttt{\RGPx{AA}{0A}}\\
+        keyboard per diganalog & toggle Rele 	  & 	 \texttt{\RGPx{AA}{0B}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{0C}}\\        
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{0D}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{0E}}\\        
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{0F}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{10}}\\        
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{11}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{12}}\\        
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{13}}\\
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{14}}\\        
+                 			  & (libero) & 		 		 \texttt{\RGPx{AA}{15}}\\
+
+        servente per pfSense  & tentativo di sync Arduino-pfSense & \texttt{\RGPx{AC}{01}}\\
+        servente per pfSense & in avvio & 			 	 \texttt{\RGPx{AC}{02}}\\
+        servente per pfSense & è ON & 				 	 \texttt{\RGPx{AC}{03}}\\
+        servente per pfSense & in spegnimento & 		 \texttt{\RGPx{AC}{04}}\\
+        servente per pfSense & è OFF & 				 \texttt{\RGPx{AC}{05}}\\
+        servente per pfSense & ping OK & 				 \texttt{\RGPx{AC}{06}}\\
+        servente per pfSense & ping ko & 				 \texttt{\RGPx{AC}{07}}\\
+        servente per pfSense & invia \texttt{$ \backslash $n}    &  \texttt{\RGPx{AC}{09}}\\
+        servente per pfSense & invia \texttt{exit $ \backslash $n} &\texttt{\RGPx{AC}{0A}}\\
+        servente per pfSense & ricevuto comando & 	 	 \texttt{\RGPx{AC}{FE}}\\
+
+        diganalog & stato rele ON & 		 \texttt{\RGPx{AD}{01}}\\
+        diganalog & stato rele OFF & 		 \texttt{\RGPx{AD}{02}}\\        
+        diganalog & valore analogico A0  & 	 \texttt{\RGP{AD}{03}{XX}{XX}{XX}{XX}}\\
+        diganalog & ricevuto comando & 		 \texttt{\RGPx{AD}{FE}}\\                
     \end{tabular}
 
     \newpage
