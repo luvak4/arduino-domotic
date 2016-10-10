@@ -28,6 +28,96 @@
     \end{tabular}
     }
     
+    \section*{Stato futuro dati trasmessi (sempre con prefisso AA)}
+    
+    I dati seguenti vengono trasmessi da keyboard (codice identificativo AA)
+    
+    \begin{tabular}{lll}
+        1 & keyboard per servente & chiede lo spegnimento \\
+        2 & keyboard per servente & chiede il riavvio \\
+        3 & keyboard per servente & chiede “Sync” \\
+        4 & keyboard per servente & chiede Ping \\
+        5 & chiede stato \\
+        6 & (libero) \\
+        6 & keyboard per diganalog & imposta Rele ON \\
+        7 & keyboard per diganalog & imposta Rele OFF \\
+        8 & keyboard per diganalog & leggi stato rele \\
+        9 & keyboard per diganalog & leggi analogico A0 \\
+        10 & keyboard per diganalog & toggle Rele 	  \\
+        11 & (libero) & \\
+        12 & (libero) & \\
+        13 & (libero)  & \\
+        14 & (libero)  & \\
+        15 & (libero)  & \\
+        16 & (libero)  & \\
+        17 & (libero)  & \\
+        18 & (libero)  & \\
+        19 & (libero)  & \\
+        20 & (libero)  & \\        
+        21 servente per pfSense  & tentativo di sync Arduino-pfSense\\
+         
+    \end{tabular}
+    
+    \section{Nuova tabella}
+    
+    \begin{tabular}{ll}
+        \multicolumn{2}{c}{\textbf{firewall}}\\
+        101 & chiede lo spegnimento\\
+        102 & chiede il riavvio\\
+        103 & chiede lo stato\\
+        104 & \textbf{set} kb chiede periodicamente stato\\
+        104 & \textbf{stop} kb di chiede periodicamente stato\\
+        105 & chiede ping\\
+        \multicolumn{2}{c}{\textbf{NAS}}\\
+        106 & chiede lo spegnimento\\
+        107 & chiede il riavvio\\
+        108 & chiede lo stato\\
+        109 & \textbf{set} kb chiede periodicamente stato\\
+        110 & \textbf{stop} kb di chiede periodicamente stato\\
+        \multicolumn{2}{c}{\textbf{modem}}\\
+        111 & chiede il riavvio\\
+        \multicolumn{2}{c}{\textbf{cantina}}\\
+        112 & chiede lo stato (A0+DIG(1))\\
+        113 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        114 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        115 & chiede di impostare ON DIG(1)     \\
+        116 & chiede di impostare OFF DIG(1)    \\
+        117 & chiede di impostare TOGGLE DIG(1) \\
+        \multicolumn{2}{c}{\textbf{garage}}\\
+        118 & chiede lo stato (A0+DIG(1))\\
+        119 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        120 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        121 & chiede di impostare ON DIG(1)     \\
+        122 & chiede di impostare OFF DIG(1)    \\
+        123 & chiede di impostare TOGGLE DIG(1) \\        
+        \multicolumn{2}{c}{\textbf{auto}}\\
+        124 & chiede lo stato (A0+DIG(1))\\
+        125 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        126 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        127 & chiede di impostare ON DIG(1)     \\
+        128 & chiede di impostare OFF DIG(1)    \\
+        129 & chiede di impostare TOGGLE DIG(1) \\                
+        \multicolumn{2}{c}{\textbf{compasso}}\\
+        130 & chiede lo stato (A0+DIG(1))\\
+        131 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        132 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        133 & chiede di impostare ON DIG(1)     \\
+        134 & chiede di impostare OFF DIG(1)    \\
+        135 & chiede di impostare TOGGLE DIG(1) \\                        
+    \end{tabular}    
+    \newpage
+    \begin{tabular}{ll}        
+        \multicolumn{2}{c}{\textbf{tetto}}\\
+        136 & chiede lo stato (A0+DIG(1))\\
+        137 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        138 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        139 & chiede di impostare ON DIG(1)     \\
+        140 & chiede di impostare OFF DIG(1)    \\
+        141 & chiede di impostare TOGGLE DIG(1) \\                                
+    \end{tabular}
+    
+    \section{Altri appunti}
+    
     \begin{tabular}{lll}
                 \textbf{scheda} & \textbf{descrizione}  & \textbf{nuovo codice}\\
                                  &   & \texttt{\RGPcol{D5}{D4}{D3}{D2}{D1}{D0}}  \\
