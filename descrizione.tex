@@ -12,20 +12,138 @@
 
 
 \begin{document}
+    
+    \section{Moduli}
+    
+    I moduli presenti sono:
+    
+    \begin{description}
+         \item [keyboard + display] Le due unità sono separate (due Arduino differenti) ma vengono tenute vicine nella stessa scatola. \'E il centro stella del sistema. Tutte le conversazioni passano attraverso di loro. \'E attraverso di loro che una unità nell'appartamento riesce a dialogare con la 'cantina' o col 'garage'.
+         
+         \item [keyboard + display supplementare SU] portatile per impostare comandi e ricevere risposte in varie parti dell'appartamento.
+
+         \item [keyboard + display supplementare GIU] portatile per impostare comandi e ricevere risposte in varie parti del garage/cantina. Passa attraverso 'garage'
+         
+         \item [firewall] Spegnere e riavviare un server tenendo monitorato lo stato (ON, OFF, in spegnimento, in accensione, collegamento internet ok o ko).
+         \item [NAS] chiede spegnimento o accensione del NAS
+         \item [cantina] Un led da comandare ed un ingresso analogico da monitorare. E' anche il crocevia per permettere la comunicazione tra SU e GIU.
+         \item [garage] Un led da comandare ed un ingresso analogico da monitorare. la conversazione passa attraverso 'cantina'.
+         \item [auto] Un led da comandare ed un ingresso analogico da monitorare. La conversazione passa attraverso 'garage' (che a sua volta passa attraverso cantina)
+         \item [tetto] Un led da comandare ed un ingresso analogico da monitorare.
+         \item [compasso] Un led da comandare ed un ingresso analogico da monitorare.
+    \end{description}
+    
+    \section{Doppi passaggi}
+    
+    \noindent Keyboard  $ \longrightarrow $ cantina $ \longrightarrow $ modulo
+
+    \noindent modulo $ \longrightarrow $ cantina $ \longrightarrow $ Display
+    
+    \section{Tripli passaggi}
+    
+    \noindent Keyboard SU $ \longrightarrow $ Keyboard  $ \longrightarrow $ cantina $ \longrightarrow $ modulo
+    
+    \noindent Keyboard GIU $ \rightarrow $ cantina $ \rightarrow $ Keyboard $ \rightarrow $ tetto $ \rightarrow $ Keyboard $ \rightarrow $ Display GIU
+    
+    \section{Quadrupli passaggi}
+    
+    \noindent Keyboard SU $ \longrightarrow $ Keyboard  $ \longrightarrow $ cantina $ \longrightarrow $ modulo $ \longrightarrow $ auto
+    
+    
+    \section{Da 'cantina' a 'display'}
+    
+    \begin{tabular}{ll}
+        stato & \texttt{\RGP{AD}{YY}{XX}{XX}{00}{00}}\\
+        YY = 01 (rele ON) 02 (rele OFF) & \\
+        XXXX = int valore letto su A0
+    \end{tabular}
+    
+    \section{Da IR a 'keyboard' (azioni per altri moduli)}
+    
+    \begin{tabular}{ll}
+        \multicolumn{2}{c}{\textbf{firewall}}\\
+        101 & chiede lo spegnimento\\
+        102 & chiede il riavvio\\
+        103 & chiede lo stato\\
+        104 & \textbf{set} kb chiede periodicamente stato\\
+        104 & \textbf{stop} kb di chiede periodicamente stato\\
+        105 & chiede ping\\
+        \multicolumn{2}{c}{\textbf{NAS}}\\
+        106 & chiede lo spegnimento\\
+        107 & chiede l'accensione\\
+        108 & chiede lo stato\\
+        109 & \textbf{set} kb chiede periodicamente stato\\
+        110 & \textbf{stop} kb di chiede periodicamente stato\\
+        \multicolumn{2}{c}{\textbf{modem}}\\
+        111 & chiede il riavvio\\
+        \multicolumn{2}{c}{\textbf{cantina}}\\
+        112 & chiede lo stato (A0+DIG(1))\\
+        113 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        114 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        115 & chiede di impostare ON DIG(1)     \\
+        116 & chiede di impostare OFF DIG(1)    \\
+        117 & chiede di impostare TOGGLE DIG(1) \\
+        \multicolumn{2}{c}{\textbf{garage}}\\
+        118 & chiede lo stato (A0+DIG(1))\\
+        119 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        120 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        121 & chiede di impostare ON DIG(1)     \\
+        122 & chiede di impostare OFF DIG(1)    \\
+        123 & chiede di impostare TOGGLE DIG(1) \\        
+        \multicolumn{2}{c}{\textbf{auto}}\\
+        124 & chiede lo stato (A0+DIG(1))\\
+        125 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        126 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        127 & chiede di impostare ON DIG(1)     \\
+        128 & chiede di impostare OFF DIG(1)    \\
+        129 & chiede di impostare TOGGLE DIG(1) \\
+        \multicolumn{2}{c}{\textbf{compasso}}\\
+        130 & chiede lo stato (A0+DIG(1))\\
+        131 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        132 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        133 & chiede di impostare ON DIG(1)     \\
+        134 & chiede di impostare OFF DIG(1)    \\
+        135 & chiede di impostare TOGGLE DIG(1) \\
+    \end{tabular}    
+    \newpage
+    \begin{tabular}{ll}        
+        \multicolumn{2}{c}{\textbf{tetto}}\\
+        136 & chiede lo stato (A0+DIG(1))\\
+        137 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        138 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        139 & chiede di impostare ON DIG(1)     \\
+        140 & chiede di impostare OFF DIG(1)    \\
+        141 & chiede di impostare TOGGLE DIG(1) \\
+        \multicolumn{2}{c}{\textbf{termostato}}\\
+        142 & chiede lo stato (A0+DIG(1))\\
+        143 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
+        144 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
+        \multicolumn{2}{c}{\textbf{periodicità keyboard}}\\
+        145 & imposta periodicita per se stessa a 1  min\\                
+        146 & imposta periodicita per se stessa a 5  min\\
+        147 & imposta periodicita per se stessa a 15 min\\                
+        148 & imposta periodicita per se stessa a 30 min\\                
+    \end{tabular}
+
+    \newpage
+    
+    \texttt{*99-55}
+
+    \newpage
 	
     \section*{Stato attuale dati trasmessi}
     
     
     \texttt{        
-    \begin{tabular}{lll}
-        AA01 & AA02 & AA03\\
-        AA04 & AA05 & AA06\\
-        AA07 & AA08 & AA09\\
-        AA0A & AA0B & AA0C\\
-        AA0D & AA0E & AA0F\\
-        AA10 & AA11 & AA12\\
-        AA13 & AA14 & AA15\\    
-    \end{tabular}
+        \begin{tabular}{lll}
+            AA01 & AA02 & AA03\\
+            AA04 & AA05 & AA06\\
+            AA07 & AA08 & AA09\\
+            AA0A & AA0B & AA0C\\
+            AA0D & AA0E & AA0F\\
+            AA10 & AA11 & AA12\\
+            AA13 & AA14 & AA15\\    
+        \end{tabular}
     }
     
     \section*{Stato futuro dati trasmessi (sempre con prefisso AA)}
@@ -55,66 +173,10 @@
         19 & (libero)  & \\
         20 & (libero)  & \\        
         21 servente per pfSense  & tentativo di sync Arduino-pfSense\\
-         
+        
     \end{tabular}
-    
-    \section{Nuova tabella}
-    
-    \begin{tabular}{ll}
-        \multicolumn{2}{c}{\textbf{firewall}}\\
-        101 & chiede lo spegnimento\\
-        102 & chiede il riavvio\\
-        103 & chiede lo stato\\
-        104 & \textbf{set} kb chiede periodicamente stato\\
-        104 & \textbf{stop} kb di chiede periodicamente stato\\
-        105 & chiede ping\\
-        \multicolumn{2}{c}{\textbf{NAS}}\\
-        106 & chiede lo spegnimento\\
-        107 & chiede il riavvio\\
-        108 & chiede lo stato\\
-        109 & \textbf{set} kb chiede periodicamente stato\\
-        110 & \textbf{stop} kb di chiede periodicamente stato\\
-        \multicolumn{2}{c}{\textbf{modem}}\\
-        111 & chiede il riavvio\\
-        \multicolumn{2}{c}{\textbf{cantina}}\\
-        112 & chiede lo stato (A0+DIG(1))\\
-        113 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
-        114 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
-        115 & chiede di impostare ON DIG(1)     \\
-        116 & chiede di impostare OFF DIG(1)    \\
-        117 & chiede di impostare TOGGLE DIG(1) \\
-        \multicolumn{2}{c}{\textbf{garage}}\\
-        118 & chiede lo stato (A0+DIG(1))\\
-        119 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
-        120 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
-        121 & chiede di impostare ON DIG(1)     \\
-        122 & chiede di impostare OFF DIG(1)    \\
-        123 & chiede di impostare TOGGLE DIG(1) \\        
-        \multicolumn{2}{c}{\textbf{auto}}\\
-        124 & chiede lo stato (A0+DIG(1))\\
-        125 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
-        126 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
-        127 & chiede di impostare ON DIG(1)     \\
-        128 & chiede di impostare OFF DIG(1)    \\
-        129 & chiede di impostare TOGGLE DIG(1) \\                
-        \multicolumn{2}{c}{\textbf{compasso}}\\
-        130 & chiede lo stato (A0+DIG(1))\\
-        131 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
-        132 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
-        133 & chiede di impostare ON DIG(1)     \\
-        134 & chiede di impostare OFF DIG(1)    \\
-        135 & chiede di impostare TOGGLE DIG(1) \\                        
-    \end{tabular}    
-    \newpage
-    \begin{tabular}{ll}        
-        \multicolumn{2}{c}{\textbf{tetto}}\\
-        136 & chiede lo stato (A0+DIG(1))\\
-        137 & \textbf{set} kb chiede periodicamente stato (A0+DIG(1))\\
-        138 & \textbf{stop} kb di chiede periodicamente stato (A0+DIG(1))\\
-        139 & chiede di impostare ON DIG(1)     \\
-        140 & chiede di impostare OFF DIG(1)    \\
-        141 & chiede di impostare TOGGLE DIG(1) \\                                
-    \end{tabular}
+
+
     
     \section{Altri appunti}
     
