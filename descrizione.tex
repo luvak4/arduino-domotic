@@ -13,24 +13,75 @@
 
 \begin{document}
     
+    \section{Schema}
+    
+    \begin{tikzpicture}
+    
+    \node[fill=yellow!10,minimum size=5.5cm] at (4.5,0){};
+    
+    \node[align=center,draw,minimum height=2cm,](a){display up};
+    \node[align=center,minimum height=2cm,right =4cm of a,anchor=west, text width=1.5cm](b){keyboard (cambio indirizzi)};
+    \node[align=center,draw,minimum height=4cm,right =of b,anchor=west, text width=1.5cm](c){display};
+    \node[align=center,draw,above right =of c,anchor=south west, yshift=-1cm](d){FW firewall};    
+    \node[align=center,draw,below=2mm of d,anchor=north](e){NA NAS};
+    \node[align=center,draw,below=2mm of e,anchor=north](f){CA cantina};
+    \node[align=center,draw,below=2mm of f,anchor=north](g){GA garage};
+    \node[align=center,draw,below=2mm of g,anchor=north](h){TR termostato};
+    \node[align=center,draw,below=2mm of h,anchor=north](i){CO compasso};
+    \node[align=center,draw,below=2mm of i,anchor=north](j){TE tetto};
+    
+    \node[align=center,draw,left=6cm of d,anchor=east](dd){FWr firewall};    
+    \node[align=center,draw,below=2mm of dd,anchor=north](ee){NAr NAS};
+    \node[align=center,draw,below=2mm of ee,anchor=north](ff){CAr cantina};
+    \node[align=center,draw,below=2mm of ff,anchor=north](gg){GAr garage};
+    \node[align=center,draw,below=2mm of gg,anchor=north](hh){TRr termostato};
+    \node[align=center,draw,below=2mm of hh,anchor=north](ii){COr compasso};
+    \node[align=center,draw,below=2mm of ii,anchor=north](jj){TEr tetto};
+    
+    
+    \node[right=1.2cm of a](x){};
+    \draw[-latex] (x) -- node[midway,above]{TX} (a);
+
+    \draw[latex-,ultra thick] (b) -- node[midway,above]{seriale} (c);
+    \draw[latex-] (c) -- (d.west);
+    \draw[latex-] (c) -- (e.west);
+    \draw[latex-] (c) -- (f.west);
+    \draw[latex-] (c) -- (g.west);
+    \draw[latex-] (c) -- (h.west);
+    \draw[latex-] (c) -- (i.west);
+    \draw[latex-] (c) -- (j.west);                        
+    \end{tikzpicture}
+    
+    \section{Identificativi Tx e sensibilità nominativi Rx}
+    
+    \begin{tabular}{llll}
+        \textbf{modulo} & \textbf{tx cod} & \textbf{rx sens} \\
+        keyboard & AA & AB \\
+        keyboard su & AB & --- \\
+        display & --- & AD BA BB CA DA DB\\
+        display su & 
+    \end{tabular}
+    
     \section{Moduli}
     
     I moduli presenti sono:
     
     \begin{description}
-         \item [keyboard + display] Le due unità sono separate (due Arduino differenti) ma vengono tenute vicine nella stessa scatola. \'E il centro stella del sistema. Tutte le conversazioni passano attraverso di loro. \'E attraverso di loro che una unità nell'appartamento riesce a dialogare con la 'cantina' o col 'garage'.
+         \item [keyboard AA + display] Le due unità sono separate (due Arduino differenti) ma vengono tenute vicine nella stessa scatola. \'E il centro stella del sistema. Tutte le conversazioni passano attraverso di loro. \'E attraverso di loro che una unità nell'appartamento riesce a dialogare con la 'cantina' o col 'garage'.
          
-         \item [keyboard + display supplementare SU] portatile per impostare comandi e ricevere risposte in varie parti dell'appartamento.
+         \item [keyboard AB + display supplementare SU] portatile per impostare comandi e ricevere risposte in varie parti dell'appartamento.
 
-         \item [keyboard + display supplementare GIU] portatile per impostare comandi e ricevere risposte in varie parti del garage/cantina. Passa attraverso 'garage'
+         \item [keyboard AC + display supplementare GIU] portatile per impostare comandi e ricevere risposte in varie parti del garage/cantina. Passa attraverso 'garage'
          
-         \item [firewall] Spegnere e riavviare un server tenendo monitorato lo stato (ON, OFF, in spegnimento, in accensione, collegamento internet ok o ko).
-         \item [NAS] chiede spegnimento o accensione del NAS
-         \item [cantina] Un led da comandare ed un ingresso analogico da monitorare. E' anche il crocevia per permettere la comunicazione tra SU e GIU.
-         \item [garage] Un led da comandare ed un ingresso analogico da monitorare. la conversazione passa attraverso 'cantina'.
-         \item [auto] Un led da comandare ed un ingresso analogico da monitorare. La conversazione passa attraverso 'garage' (che a sua volta passa attraverso cantina)
-         \item [tetto] Un led da comandare ed un ingresso analogico da monitorare.
-         \item [compasso] Un led da comandare ed un ingresso analogico da monitorare.
+         \item [termostato AD] restituisce temperatura ambiente e stato del relè
+         
+         \item [firewall BA] Spegnere e riavviare un server tenendo monitorato lo stato (ON, OFF, in spegnimento, in accensione, collegamento internet ok o ko).
+         \item [NAS BB] chiede spegnimento o accensione del NAS
+         \item [cantina CA] Un led da comandare ed un ingresso analogico da monitorare. E' anche il crocevia per permettere la comunicazione tra SU e GIU.
+         \item [garage CB] Un led da comandare ed un ingresso analogico da monitorare. la conversazione passa attraverso 'cantina'.
+         \item [auto CC] Un led da comandare ed un ingresso analogico da monitorare. La conversazione passa attraverso 'garage' (che a sua volta passa attraverso cantina)
+         \item [tetto DA] Un led da comandare ed un ingresso analogico da monitorare.
+         \item [compasso DB] Un led da comandare ed un ingresso analogico da monitorare.
     \end{description}
     
     \section{Doppi passaggi}
